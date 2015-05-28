@@ -13,6 +13,8 @@ game.PlayerEntity = me.Entity.extend({
     
         this.body.setVelocity(5, 0);
         
+        this.body.gravity = 0;
+        
         this.renderable.addAnimation("idle", [78]);
         this.renderable.addAnimation("walk", [117, 118, 119, 120, 121, 122, 123, 124, 125], 80);
         
@@ -28,6 +30,14 @@ game.PlayerEntity = me.Entity.extend({
             this.flipX(false);
         }else{
             this.body.vel.x = 0;
+        }
+        
+        if(me.input.isKeyPressed("up")){
+            this.body.gravity.y += this.body.gravity.y * me.timer.tick;
+        }else if (me.input.isKeyPressed("down")){
+            this.body.gravity.y -= this.body.gravity.y * me.timer.tick;
+        }else{
+            this.body.gravity = 0;
         }
         
         if(me.input.isKeyPressed("jump") && !this.jumping && !this.falling){
